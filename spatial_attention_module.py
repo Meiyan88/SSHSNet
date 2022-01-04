@@ -151,10 +151,13 @@ class PAM_Module(nn.Module):
 
 class CAM_Module(nn.Module):
     """ Channel attention module"""
-    def __init__(self, in_dim):
+    def __init__(self, in_dim, d=1):
         super(CAM_Module, self).__init__()
         self.chanel_in = in_dim
-
+        self.d = d
+        self.query_conv = nn.Conv3d(in_channels=in_dim, out_channels=in_dim // self.d , kernel_size=1)
+        self.key_conv = nn.Conv3d(in_channels=in_dim, out_channels=in_dim // self.d , kernel_size=1)
+        self.value_conv = nn.Conv3d(in_channels=in_dim, out_channels=in_dim, kernel_size=1)
 
         self.gamma = nn.Parameter(torch.zeros(1))
         self.softmax  = nn.Softmax(dim=-1)
@@ -168,12 +171,13 @@ class CAM_Module(nn.Module):
         """
         m_batchsize, C, height, width, depth= x.size()
         x = x.contiguous()
-        proj_query = x.view(m_batchsize, C, -1)
-        proj_key = x.view(m_batchsize, C, -1).permute(0, 2, 1)
+
+        proj_query = self.query_conv(x).view(m_batchsize, C // self.d , -1)
+        proj_key = self.key_conv(x).view(m_batchsize, C // self.d , -1).permute(0, 2, 1)
         energy = torch.bmm(proj_query, proj_key)
         energy_new = torch.max(energy, -1, keepdim=True)[0].expand_as(energy)-energy
         attention = self.softmax(energy_new)
-        proj_value = x.view(m_batchsize, C, -1)
+        proj_value = self.value_conv(x).view(m_batchsize, C, -1)
 
         out = torch.bmm(attention, proj_value)
         out = out.view(m_batchsize, C, height, width, depth)
