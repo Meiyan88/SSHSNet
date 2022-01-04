@@ -508,7 +508,7 @@ if __name__ == '__main__':
             train_writer = SummaryWriter(log_dir=os.path.join(os.path.join(losspath, sub), 'train'))
             test_writer = SummaryWriter(log_dir=os.path.join(os.path.join(losspath, sub), 'test'))
 
-            model2d = DualNetwork(None).cuda(len(config.gpuid.split(',')))
+            model2d = DualNetwork(None).cuda(len(config.gpuid.split(','))-1)
             model2d = load_GPUS(model2d, os.path.join(os.path.join(os.path.join('./weight', config.exid2D), sub), config.branch_best))
 
             model3d = DeeplabV3Plus3D(num_classes=20,
