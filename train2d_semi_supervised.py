@@ -663,7 +663,7 @@ if __name__=='__main__':
                 dataset = pk.load(f)
             trainfile = dataset[i][0]
             validfile = dataset[i][1]
-            with open('./unlabeldataset.pkl', 'rb') as f:
+            with open('./testdataset.pkl', 'rb') as f:
                 test1file = pk.load(f)
 
             trainset = Data(root=config.datapath, name=trainfile,istrain=True)
