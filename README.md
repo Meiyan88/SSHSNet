@@ -31,7 +31,7 @@ Commands for training：
     python process_data.py --filepath './train/MR' --maskpath "./train/Mask" --savepath "./dataset/processdata3D" --withlabel True --infomation 'info.csv'
     
     # split dataset
-    the dataset has been splited, which have save as 'splitdataset.pkl' and 'unlabeldataset.pkl'
+    the dataset has been splited, which have save as 'splitdataset.pkl' and 'testdataset.pkl'
     
     #  train 2D network
     for fold in 0 1 2 3 4; do
