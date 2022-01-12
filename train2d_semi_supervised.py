@@ -385,8 +385,8 @@ def trainer(writer):
         # Get student#2 prediction for mixed image
         _, logits_cons_stu_2 = model(unsup_imgs_mixed, step=2)
 
-        cps_loss = criterion_ce(logits_cons_stu_1.cuda(1, non_blocking=True), ps_label_2.unsqueeze(1).cuda(1, non_blocking=True)
-                                  ) + criterion_ce(logits_cons_stu_2.cuda(1, non_blocking=True), ps_label_1.unsqueeze(1).cuda(1, non_blocking=True))
+        cps_loss = criterion_ce(logits_cons_stu_1.cuda(non_blocking=True), ps_label_2.unsqueeze(1).cuda( non_blocking=True)
+                                  ) + criterion_ce(logits_cons_stu_2.cuda(non_blocking=True), ps_label_1.unsqueeze(1).cuda( non_blocking=True))
         # dist.all_reduce(cps_loss, dist.ReduceOp.SUM)
         # cps_loss = cps_loss / engine.world_size
         # cps_loss = cps_loss * config.cps_weight
@@ -395,11 +395,11 @@ def trainer(writer):
         _, sup_pred_l = model(imgs, step=1)
         _, sup_pred_r = model(imgs, step=2)
 
-        loss_sup = criteion_ce_dc(sup_pred_l.cuda(1, non_blocking=True), gts.unsqueeze(1).cuda(1, non_blocking=True))
+        loss_sup = criteion_ce_dc(sup_pred_l.cuda( non_blocking=True), gts.unsqueeze(1).cuda( non_blocking=True))
         # dist.all_reduce(loss_sup, dist.ReduceOp.SUM)
         # loss_sup = loss_sup / engine.world_size
 
-        loss_sup_r = criteion_ce_dc(sup_pred_r.cuda(1, non_blocking=True), gts.unsqueeze(1).cuda(1, non_blocking=True))
+        loss_sup_r = criteion_ce_dc(sup_pred_r.cuda(non_blocking=True), gts.unsqueeze(1).cuda( non_blocking=True))
         # dist.all_reduce(loss_sup_r, dist.ReduceOp.SUM)
         # loss_sup_r = loss_sup_r / engine.world_size
         # current_idx = epoch * config.niters_per_epoch + idx
