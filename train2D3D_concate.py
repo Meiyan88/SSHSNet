@@ -226,8 +226,8 @@ def progress(istrain, epoch, model2d, model3d, optimizer, loader, writer):
             model3d.zero_grad()
         # print(index(i,len(loader)-1), end='')
         x = x.float().squeeze(0).cuda()
-        y = y.long().squeeze(0).cuda(2)
-        whole = whole.float().squeeze(0).cuda(2)
+        y = y.long().squeeze(0).cuda(1)
+        whole = whole.float().squeeze(0).cuda(1)
 
         # print(torch.max(x))
         # print(torch.min(x))
@@ -243,7 +243,7 @@ def progress(istrain, epoch, model2d, model3d, optimizer, loader, writer):
         locscore = locscore.cuda()
         output = model3d(x, locfeature,  locscore)
         Seg_one_hot = (one_hot(y.cpu(), 20)).permute(0, 4, 1, 2, 3)
-        loss = criteion_ce_dc(output.cuda(2), torch.unsqueeze(y, 1))
+        loss = criteion_ce_dc(output.cuda(1), torch.unsqueeze(y, 1))
         predict = torch.softmax(output.cpu().detach(), dim=1)
         Seg_prediction = torch.argmax(predict.cpu(), dim=1, keepdim=True).long()
 
