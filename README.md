@@ -1,6 +1,10 @@
 # SSHSNet for spine segmentation
 Our model build on linux, cuda10.1, python=3.6**， GeForce RTX 2080
 
+If you draw on this work, please cite this article:
+
+[1] Meiyan Huang, Shuoling Zhou, Xiumei Chen, Haoran Lai, Qianjin Feng, Semi-Supervised Hybrid Spine Network for Segmentation of Spine MR Images, arXiv preprint arXiv:2203.12151.
+
 ##Package including:
 * torch 1.7.1
 * scikit-image 0.17.2
