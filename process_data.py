@@ -110,12 +110,14 @@ if __name__ == '__main__':
                                               )
     allsize = []
     allstride = []
+    allorishape = []
     for i, name1 in enumerate(maindir):
         img = itk.ReadImage(os.path.join(args.filepath, name1))
         imgdata = itk.GetArrayFromImage(img)
         space = img.GetSpacing()
         direction = img.GetDirection()
         origin = img.GetOrigin()
+        orishape = imgdata.shape
 
         if args.withlabel:
             mask = itk.ReadImage(os.path.join(args.maskpath,'mask_' + name1.replace('Case', 'case')))
@@ -161,7 +163,8 @@ if __name__ == '__main__':
                                               name1))
         allsize.append(np.asarray(imgdata.shape))
         allstride.append(np.asarray(stride))
+        allorishape.append(np.asarray(orishape))
     allsize = np.asarray(allsize)
     allstride = np.asarray(allstride)
     pd.DataFrame(data={'name': maindir, 'shape0': allsize[:, 0], 'shape1': allsize[:, 1], 'shape2': allsize[:, 2], 'stridemin':allstride[:,0],
-                       'stridemax':allstride[:,1] }).to_csv(os.path.join(args.savepath, args.infomation), index=False)
+                       'stridemax':allstride[:,1], 'orishape0': allorishape[:, 0], 'orishape1': allorishape[:, 1], 'orishape2': allorishape[:, 2] }).to_csv(os.path.join(args.savepath, args.infomation), index=False)
