@@ -268,14 +268,14 @@ if __name__ == '__main__':
     parser.add_argument('--branch_best', type=str, default="branch2", help='the best_branch use in 2D network')
     parser.add_argument('--exid2D', type=str, default="ex0", help='2d model save.')
     parser.add_argument('--exid3D', type=str, default="ex1", help='3d model save')
-    parser.add_argument('--datapath', type=str, default='./dataset/processdata3Dtest', help='data path for predict')
-    parser.add_argument('--oridatapath', type=str, default='./dataset/MR', help='original dataset, to get the original information')
+    parser.add_argument('--datapath', type=str, default='./dataset/processdata3D_test', help='data path for predict')
+    parser.add_argument('--oridatapath', type=str, default='./test/MR', help='original dataset, to get the original information')
     parser.add_argument('--infomation', type=str, default='info.csv', help='the file name of imformation that generating in processing')
     parser.add_argument('--batch_size', type=int, default=20, help='test batch size')
     config = parser.parse_args()
 
     os.environ["CUDA_VISIBLE_DEVICES"] = config.gpu # use two gpus
-    div = ['sub0', 'sub1', 'sub2', 'sub3', 'sub4']
+    div = [ 'sub0', 'sub1', 'sub2', 'sub3', 'sub4']
 
 
     savepath = os.path.join(os.path.join(config.datapath, config.exid3D), 'predict')
@@ -286,9 +286,9 @@ if __name__ == '__main__':
     stridemin = df['stridemin'].values
     stridemax = df['stridemax'].values
 
-    resizez = df['shape0'].values
-    resizey = df['shape1'].values
-    resizex = df['shape2'].values
+    resizez = df['allresolution_size0'].values
+    resizey = df['allresolution_size1'].values
+    resizex = df['allresolution_size2'].values
 
     oriz = df['orishape0'].values
     oriy = df['orishape1'].values
