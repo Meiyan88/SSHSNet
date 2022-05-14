@@ -24,8 +24,8 @@ def normalize(img):
 def normalize_cut(img):
 
     ind = np.where(img != 0)
-    stride = [ ind[2].min() ,   ind[2].max()]
-    img = img[:, :, ind[2].min() :  ind[2].max()]
+    stride = [ ind[2].min() , ind[2].max() + 1]
+    img = img[:, :, ind[2].min() :  ind[2].max()+1]
 
     ind = np.where(img != 0)
     mask = np.zeros(img.shape, dtype=np.int)
@@ -111,6 +111,7 @@ if __name__ == '__main__':
     allsize = []
     allstride = []
     allorishape = []
+    allresolution_size = []
     for i, name1 in enumerate(maindir):
         img = itk.ReadImage(os.path.join(args.filepath, name1))
         imgdata = itk.GetArrayFromImage(img)
@@ -136,6 +137,7 @@ if __name__ == '__main__':
         rsize = [round(imgdata.shape[0] * space[2] / newresolutionz),
                  round(imgdata.shape[1] * space[1] / newresolutionxy),
                  round(imgdata.shape[2] * space[0] / newresolutionxy)]
+        allresolution_size.append(rsize)
         space = (newresolutionxy, newresolutionxy, newresolutionz)
 
 
@@ -166,5 +168,8 @@ if __name__ == '__main__':
         allorishape.append(np.asarray(orishape))
     allsize = np.asarray(allsize)
     allstride = np.asarray(allstride)
+    allorishape = np.asarray(allorishape)
+    allresolution_size = np.asarray(allresolution_size)
     pd.DataFrame(data={'name': maindir, 'shape0': allsize[:, 0], 'shape1': allsize[:, 1], 'shape2': allsize[:, 2], 'stridemin':allstride[:,0],
-                       'stridemax':allstride[:,1], 'orishape0': allorishape[:, 0], 'orishape1': allorishape[:, 1], 'orishape2': allorishape[:, 2] }).to_csv(os.path.join(args.savepath, args.infomation), index=False)
+                       'stridemax':allstride[:,1], 'orishape0': allorishape[:, 0], 'orishape1': allorishape[:, 1], 'orishape2': allorishape[:, 2],
+                       'allresolution_size0': allresolution_size[:, 0], 'allresolution_size1': allresolution_size[:, 1], 'allresolution_size2': allresolution_size[:, 2],  }).to_csv(os.path.join(args.savepath, args.infomation), index=False)
