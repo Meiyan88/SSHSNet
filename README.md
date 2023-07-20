@@ -3,7 +3,7 @@ Our model is built on linux, cuda10.1, python=3.6**， GeForce RTX 2080
 
 For more information about SSHNet, please read the following paper:
 
-    Meiyan Huang, Shuoling Zhou, Xiumei Chen, Haoran Lai, Qianjin Feng, Semi-Supervised Hybrid Spine Network for Segmentation of Spine MR Images, arXiv preprint arXiv:2203.12151.          
+    Meiyan Huang, Shuoling Zhou, Xiumei Chen, Haoran Lai, Qianjin Feng, Semi-supervised hybrid spine network for segmentation of spine MR images, Computerized Medical Imaging and Graphics, 2023, 107, 102245.          
       
 Please also cite this paper if you are using SSHNet for your research!
 
